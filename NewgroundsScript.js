@@ -41,8 +41,9 @@ source.getSearchChannelContentsCapabilities = function () {
 		filters: []
 	};
 };
+
 source.searchChannelContents = function (channelUrl, query, type, order, filters) {
-	throw new ScriptException("This is a sample");
+	
 };
 
 source.searchChannels = function (query) {
@@ -99,7 +100,7 @@ class NGMoviePager extends ContentPager {
 class NGFeaturedMoviePager extends ContentPager {
 	currentPage = 1;
 
-	constructor(page) {
+	constructor() {
 		this.currentPage = page;
 		featuredResp = JSON.parse(http.GET(format(URL_FEATURED_MOVIES, this.currentPage), { "X-Requested-With": X_REQUESTED_WITH }, null));
 		if (featuredResp.isOk)
@@ -118,9 +119,9 @@ class NGFeaturedMoviePager extends ContentPager {
 					url: videoMetaData.getAttribute('href'),
 					author: new PlatformAuthorLink(new PlatformID(PLATFORM, authorName, config.id), authorName, format(URL_CREATOR_PROFILE, authorName), "", null),
 					name: x.getAttribute("title"),
-					viewCount = 0,
-					duration = 0,
-					isLive = false
+					viewCount: 0,
+					duration: 0,
+					isLive: false
 				}));
 			});
 			super(videos, true);
