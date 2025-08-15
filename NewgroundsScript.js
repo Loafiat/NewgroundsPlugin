@@ -109,10 +109,9 @@ class NGFeaturedMoviePager extends ContentPager {
 			let featuredVideos = featuredContent.querySelector('.portalsubmission-cell');
 			featuredVideos.forEach(function(x) {
 				let videoMetaData = x.querySelector('a');
-				id = videoMetaData.getAttribute('data-video-playback');
 				authorName = x.querySelector('.card-title span').text().toLowerCase().replace("by ", "");
 				videos.push(new PlatformVideo({
-					id: new PlatformID(PLATFORM, id, config.id),
+					id: new PlatformID(PLATFORM, videoMetaData.getAttribute('data-video-playback'), config.id),
 					thumbnails: new Thumbnails([
 						new Thumbnail(x.querySelector('.card-img').getAttribute("src"), 720)
 					]),
