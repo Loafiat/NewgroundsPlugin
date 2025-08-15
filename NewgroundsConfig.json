@@ -4,7 +4,7 @@
 	"author": "Lofiat",
 	"authorUrl": "https://www.github.com/Loafiat",
 	
-	"sourceUrl": "https://plugins.grayjay.app/Sample/SampleConfig.json",
+	"sourceUrl": "https://github.com/Loafiat/NewgroundsPlugin/",
 	"repositoryUrl": "https://futo.org",
 	"scriptUrl": "./NewgroundsScript.js",
 	"version": 23,
@@ -14,7 +14,7 @@
 	
 	"scriptSignature": "",
 	"scriptPublicKey": "",
-	"packages": ["Http"],
+	"packages": ["Http", "DOMParser"],
 	"authentication": {
 		"loginUrl": "https://www.newgrounds.com/passport/mode/iframe",
 		"userAgent": "Mozilla/5.0 (Linux; Android 12) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.6099.230 Mobile Safari/537.36",

@@ -15,12 +15,13 @@ source.enable = function(conf, settings, savedState){
 	throw new ScriptException("This is a sample");
 }
 source.getHome = function() {
-	return new ContentPager([], false);
+	return new NGFeaturedMoviePager(1);
 };
 
 source.searchSuggestions = function(query) {
 	throw new ScriptException("This is a sample");
 };
+
 source.getSearchCapabilities = () => {
 	return {
 		types: [Type.Feed.Mixed],
@@ -28,9 +29,11 @@ source.getSearchCapabilities = () => {
 		filters: [ ]
 	};
 };
+
 source.search = function (query, type, order, filters) {
-	return new ContentPager([]. false);
+	return new NGCreatorPager([], false);
 };
+
 source.getSearchChannelContentsCapabilities = function () {
 	return {
 		types: [Type.Feed.Mixed],
@@ -43,13 +46,14 @@ source.searchChannelContents = function (channelUrl, query, type, order, filters
 };
 
 source.searchChannels = function (query) {
-	throw new ScriptException("This is a sample");
+	
 };
 
 //Channel
 source.isChannelUrl = function(url) {
-	throw new ScriptException("This is a sample");
+	return url.match("^https:\/\/(?!www\.)[a-zA-Z0-9-]+\.newgrounds\.com\/$");
 };
+
 source.getChannel = function(url) {
 	throw new ScriptException("This is a sample");
 };
@@ -59,7 +63,7 @@ source.getChannelContents = function(url) {
 
 //Video
 source.isContentDetailsUrl = function(url) {
-	throw new ScriptException("This is a sample");
+	return false;
 };
 source.getContentDetails = function(url) {
 	throw new ScriptException("This is a sample");
@@ -75,3 +79,76 @@ source.getSubComments = function (comment) {
 }
 
 log("LOADED");
+
+class NGMoviePager extends ContentPager {
+	currentPage = 0;
+
+	constructor(someInfo) {
+		super([], true); //Alternatively, pass first page results in []
+		this.someInfo = someInfo;
+	}
+
+	nextPage() {
+		currentPage += 1;
+		const myNewResults = [];
+		this.results = myNewResults;
+		this.hasMore = true; //Or false if last page
+	}
+}
+
+class NGFeaturedMoviePager extends ContentPager {
+	currentPage = 1;
+
+	constructor(page) {
+		this.currentPage = page;
+		featuredResp = JSON.parse(http.GET(format(URL_FEATURED_MOVIES, this.currentPage), { "X-Requested-With": X_REQUESTED_WITH }, null));
+		if (featuredResp.isOk)
+		{
+			let videos = [];
+			let featuredContent = domDOMParser.parseFromString(featuredResp.content);
+			let featuredVideos = featuredContent.querySelector('.portalsubmission-cell');
+			featuredVideos.forEach(function(x) {
+				let videoMetaData = x.querySelector('a');
+				id = videoMetaData.getAttribute('data-video-playback');
+				authorName = x.querySelector('.card-title span').text().toLowerCase().replace("by ", "");
+				videos.push(new PlatformVideo({
+					id: new PlatformID(PLATFORM, id, config.id),
+					thumbnails: new Thumbnails([
+						new Thumbnail(x.querySelector('.card-img').getAttribute("src"), 720)
+					]),
+					url: videoMetaData.getAttribute('href'),
+					author: new PlatformAuthorLink(new PlatformID(PLATFORM, authorName, config.id), authorName, format(URL_CREATOR_PROFILE, authorName), "", null),
+					name: x.getAttribute("title"),
+					viewCount = 0,
+					duration = 0,
+					isLive = false
+				}));
+			});
+			super(videos, true);
+		}
+		super([], false);
+	}
+
+	nextPage() {
+		currentPage += 1;
+		const myNewResults = [];
+		this.results = myNewResults;
+		this.hasMore = true; //Or false if last page
+	}
+}
+
+class NGCreatorPager extends ChannelPager {
+	currentPage = 0;
+
+	constructor(someInfo) {
+		super([], true); //Alternatively, pass first page results in []
+		this.someInfo = someInfo;
+	}
+
+	nextPage() {
+		currentPage += 1;
+		const myNewResults = [];
+		this.results = myNewResults;
+		this.hasMore = true; //Or false if last page
+	}
+}
