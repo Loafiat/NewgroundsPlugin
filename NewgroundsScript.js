@@ -101,7 +101,7 @@ class NGFeaturedMoviePager extends ContentPager {
 	currentPage = 1;
 
 	constructor() {
-		featuredResp = JSON.parse(http.GET(format(URL_FEATURED_MOVIES, 1), { "X-Requested-With": X_REQUESTED_WITH }, null));
+		featuredResp = JSON.parse(http.GET(URL_FEATURED_MOVIES.replace("{0}", "1")), { "X-Requested-With": X_REQUESTED_WITH }, null));
 		if (featuredResp.isOk)
 		{
 			let videos = [];
@@ -116,7 +116,7 @@ class NGFeaturedMoviePager extends ContentPager {
 						new Thumbnail(x.querySelector('.card-img').getAttribute("src"), 720)
 					]),
 					url: videoMetaData.getAttribute('href'),
-					author: new PlatformAuthorLink(new PlatformID(PLATFORM, authorName, config.id), authorName, format(URL_CREATOR_PROFILE, authorName), "", null),
+					author: new PlatformAuthorLink(new PlatformID(PLATFORM, authorName, config.id), authorName, URL_CREATOR_PROFILE.replace("{0}", authorName), "", null),
 					name: x.getAttribute("title"),
 					viewCount: 0,
 					duration: 0,
