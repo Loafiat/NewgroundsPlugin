@@ -105,7 +105,7 @@ class NGFeaturedMoviePager extends ContentPager {
 		if (featuredResp.isOk)
 		{
 			let videos = [];
-			let featuredContent = domDOMParser.parseFromString(featuredResp.content);
+			let featuredContent = domDOMParser.parseFromString(featuredResp.body.content);
 			let featuredVideos = featuredContent.querySelector('.portalsubmission-cell');
 			featuredVideos.forEach(function(x) {
 				let videoMetaData = x.querySelector('a');
