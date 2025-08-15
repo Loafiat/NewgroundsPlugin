@@ -7,7 +7,7 @@
 	"sourceUrl": "https://github.com/Loafiat/NewgroundsPlugin/",
 	"repositoryUrl": "https://github.com/Loafiat/NewgroundsPlugin/NewgroundsConfig.json",
 	"scriptUrl": "./NewgroundsScript.js",
-	"version": 23,
+	"version": 8,
 	
 	"iconUrl": "./Newgrounds.png",
 	"id": "002c7f46-5a93-492d-b5e3-91b621993be8",
@@ -26,12 +26,6 @@
 	
 	"allowEval": false,
 	"allowUrls": [
-		"https://www.newgrounds.com",
-		"https://picon.ngfiles.com",
-		"https://aicon.ngfiles.com",
-		"https://icon.ngfiles.com",
-		"https://uimg.ngfiles.com",
-		"https://img.ngfiles.com",
-		"https://art.ngfiles.com"
+		"everywhere"
 	]
 }
