@@ -101,8 +101,7 @@ class NGFeaturedMoviePager extends ContentPager {
 	currentPage = 1;
 
 	constructor() {
-		this.currentPage = page;
-		featuredResp = JSON.parse(http.GET(format(URL_FEATURED_MOVIES, this.currentPage), { "X-Requested-With": X_REQUESTED_WITH }, null));
+		featuredResp = JSON.parse(http.GET(format(URL_FEATURED_MOVIES, 1), { "X-Requested-With": X_REQUESTED_WITH }, null));
 		if (featuredResp.isOk)
 		{
 			let videos = [];
